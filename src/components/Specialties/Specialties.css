@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.specialties {
+  padding: 60px 20px;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.specialties-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.specialties-container h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 15px 0;
+}
+
+.specialties-container p {
+  font-size: 15px;
+  color: #666666;
+  max-width: 600px;
+  margin: 0 auto 50px;
+  line-height: 1.6;
+}
+
+.specialties-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+  place-items: center;
+}
+
+.specialty-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.specialty-card:hover {
+  transform: translateY(-5px);
+}
+
+.specialty-icon {
+  width: 120px;
+  height: 120px;
+  
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.specialty-icon img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.specialty-card p {
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .specialties {
+    padding: 40px 15px;
+  }
+
+  .specialties-container h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .specialties-container p {
+    font-size: 13px;
+    margin-bottom: 35px;
+  }
+
+  .specialties-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+
+  .specialty-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .specialty-icon img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .specialty-card p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .specialties-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .specialty-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .specialty-icon img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .specialty-card p {
+    font-size: 12px;
+  }
+}
