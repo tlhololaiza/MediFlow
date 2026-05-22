@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Navbar Container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 0.5px solid #000000;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  
+}
+
+.navbar-logo img {
+  height: 40px;
+  width: 100%;
+}
+
+/* Navigation Menu */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-menu li a {
+  text-decoration: none;
+  color: #374151;
+  font-weight: 400;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.navbar-menu li a:hover {
+  color: #5F6FFF;
+}
+
+.navbar-menu li a.active {
+  border-bottom-color: #5F6FFF;
+}
+
+/* Create Account Button */
+.navbar-btn {
+  flex-shrink: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.navbar-btn button {
+  background-color: #5F6FFF;
+  color: #ffffff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(95, 111, 255, 0.2);
+}
+
+.navbar-btn button:hover {
+  background-color: #4f46e5;
+  box-shadow: 0 4px 12px rgba(95, 111, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 16px 25px;
+    gap: 15px;
+  }
+
+  .navbar-menu {
+    gap: 20px;
+    font-size: 13px;
+  }
+
+  .navbar-btn button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}

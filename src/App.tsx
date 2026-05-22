@@ -6,18 +6,13 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Navbar from './components/Navbar/Navbar'
+import Footer from './components/Footer/Footer'
 
 const App = () => {
   return (
     <div>
-      <ul>
-        <img src="src/assets/navbar_logo.png" alt="MediFlow Logo" />
-        <li><a href="/">Home</a></li>
-        <li><a href="/doctors">Doctors</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-      <Link to="/register"><button>Create Account</button></Link>
+      <Navbar />
       
       <Routes>
         <Route path="/" element={<Home />} />
@@ -28,10 +23,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
       </Routes>
 
-      <footer>
-        <img src="src/assets/navbar_logo.png" alt="MediFlow Footer Logo" />
-        <p>&copy; 2023 MediFlow. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   )
 }
