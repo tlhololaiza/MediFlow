@@ -1,4 +1,3 @@
-import React from 'react'
 import './Specialties.css'
 
 const Specialties = () => {
@@ -14,7 +13,7 @@ const Specialties = () => {
   return (
     <section className="specialties">
       <div className="specialties-container">
-        <h2>Doctor Specialties</h2>
+        <h2>Find by Specialty</h2>
         <p>Simply browse through our extensive list of trusted doctors, schedule your appointment hassle-free.</p>
         
         <div className="specialties-grid">

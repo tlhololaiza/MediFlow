@@ -1,4 +1,3 @@
-import React from 'react'
 import './Home.css'
 import Specialties from '../../components/Specialties/Specialties'
 import DoctorCard from '../../components/DoctorCard/DoctorCard'
@@ -31,7 +30,9 @@ const Home = () => {
             <DoctorCard />
             <DoctorCard />
             <DoctorCard />
+            <DoctorCard />
           </div>
+          <button className="more-btn">More</button>
         </div>
       </section>
 

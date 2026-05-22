@@ -1,5 +1,4 @@
-import React from 'react'
-import { Route, Routes, Link } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Doctors from './pages/Doctors'
 import Home from './pages/Home/Home'
 import About from './pages/About'
@@ -8,7 +7,6 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
-import Specialties from './components/Specialties/Specialties'
 
 const App = () => {
   return (
