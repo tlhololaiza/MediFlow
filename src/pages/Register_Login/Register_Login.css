@@ -269,3 +269,14 @@ form{
     }
 
 }
+
+@media screen and (max-width: 400px){
+    .form-box{
+        padding: 20px;
+    }
+
+    .toggle-panel{
+        font-size: 30px;;
+    }
+
+}

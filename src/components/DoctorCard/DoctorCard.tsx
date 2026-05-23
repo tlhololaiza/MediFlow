@@ -23,7 +23,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
       <div className="doctor-info">
         <div className="availability-status">
           <span className={`status-indicator ${available ? 'available' : 'unavailable'}`}></span>
-          <span className="status-text">{available ? 'Available' : 'Unavailable'}</span>
+          <span className={`status-text ${available ? '' : 'unavailable'}`}>{available ? 'Available' : 'Unavailable'}</span>
         </div>
         <h3 className="doctor-name">{name}</h3>
         <p className="doctor-specialty">{specialty}</p>
