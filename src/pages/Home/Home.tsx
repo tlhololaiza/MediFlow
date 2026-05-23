@@ -1,6 +1,7 @@
 import './Home.css'
 import Specialties from '../../components/Specialties/Specialties'
 import DoctorCard from '../../components/DoctorCard/DoctorCard'
+import Footer from '../../components/Footer/Footer'
 
 const Home = () => {
   return (
@@ -49,6 +50,8 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      <Footer />
 
     </div>
   )
