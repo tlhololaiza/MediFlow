@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.about-page {
+  min-height: 100vh;
+  background: #f9fafb;
+}
+
+/* ===== HERO SECTION ===== */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 60px;
+  padding: 80px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  margin-top: 40px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+}
+
+.hero-content h1 {
+  font-size: 48px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.hero-content p {
+  font-size: 20px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.hero-image {
+  border-radius: 15px;
+  overflow: hidden;
+  height: 400px;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===== MISSION SECTION ===== */
+.mission-section {
+  padding: 80px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.mission-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.mission-content,
+.mission-vision {
+  background: linear-gradient(135deg, #5F6FFF 0%, #4e5fe0 100%);
+  padding: 50px 40px;
+  border-radius: 15px;
+  color: #fff;
+}
+
+.mission-content h2,
+.mission-vision h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.mission-content p,
+.mission-vision p {
+  font-size: 16px;
+  line-height: 1.8;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+/* ===== VALUES SECTION ===== */
+.values-section {
+  padding: 80px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.values-section h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.value-card {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid #5F6FFF;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(95, 111, 255, 0.15);
+}
+
+.value-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.value-card p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+
+.about-footer {
+  margin-top: 60px;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    padding: 60px 40px;
+    gap: 40px;
+  }
+
+  .hero-content h1 {
+    font-size: 40px;
+  }
+
+  .mission-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .values-section,
+  .team-section,
+  .mission-section {
+    padding: 60px 40px;
+  }
+
+  .values-section h2,
+  .team-section h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 40px 20px;
+    margin-top: 20px;
+    border-radius: 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+  }
+
+  .hero-image {
+    height: 300px;
+  }
+
+  .mission-section,
+  .values-section,
+  .team-section {
+    padding: 40px 20px;
+  }
+
+  .mission-content,
+  .mission-vision {
+    padding: 30px 20px;
+  }
+
+  .mission-content h2,
+  .mission-vision h2 {
+    font-size: 24px;
+  }
+
+  .values-section h2,
+  .team-section h2 {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+
+  .values-grid,
+  .team-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 30px 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 26px;
+  }
+
+  .hero-content p {
+    font-size: 14px;
+  }
+
+  .hero-image {
+    height: 250px;
+  }
+
+  .mission-section,
+  .values-section,
+  .team-section {
+    padding: 30px 15px;
+  }
+
+  .mission-content,
+  .mission-vision {
+    padding: 25px 15px;
+  }
+
+  .mission-content h2,
+  .mission-vision h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .values-section h2,
+  .team-section h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+  }
+
+  .value-card {
+    padding: 25px 20px;
+  }
+
+  .value-card h3 {
+    font-size: 18px;
+  }
+
+  .team-card h3 {
+    font-size: 16px;
+    padding-top: 15px;
+  }
+
+  .team-card p {
+    padding: 8px 15px 15px 15px;
+  }
+}

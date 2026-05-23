@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
-import DoctorCard from "../components/DoctorCard/DoctorCard"
-import Footer from "../components/Footer/Footer"
+import DoctorCard from "../../components/DoctorCard/DoctorCard"
+import Footer from "../../components/Footer/Footer"
 import './Doctors.css'
 
 interface Doctor {
