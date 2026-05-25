@@ -1,8 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import './DoctorCard.css'
 import docImage from '../../assets/doc1.png'
 
 interface DoctorCardProps {
+  id?: number
   name?: string
   specialty?: string
   available?: boolean
@@ -10,13 +12,20 @@ interface DoctorCardProps {
 }
 
 const DoctorCard: React.FC<DoctorCardProps> = ({
+  id = 1,
   name = 'Dr. Richard James',
   specialty = 'General physician',
   available = true,
   image = docImage
 }) => {
+  const navigate = useNavigate()
+
+  const handleCardClick = () => {
+    navigate(`/booking/${id}`)
+  }
+
   return (
-    <div className="doctor-card">
+    <div className="doctor-card" onClick={handleCardClick}>
       <div className="doctor-image-container">
         <img src={image} alt={name} className="doctor-image" />
       </div>

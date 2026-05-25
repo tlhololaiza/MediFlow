@@ -94,6 +94,7 @@ const Doctors = () => {
               filteredDoctors.map((doctor) => (
                 <DoctorCard
                   key={doctor.id}
+                  id={doctor.id}
                   name={doctor.name}
                   specialty={doctor.specialty}
                   available={doctor.available}
@@ -109,9 +110,7 @@ const Doctors = () => {
         </div>
       </div>
 
-      <div className="doctors-footer">
-        <Footer />
-      </div>
+      <Footer/>
     </div>
   )
 }
