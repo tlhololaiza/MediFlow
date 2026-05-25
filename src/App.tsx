@@ -8,6 +8,7 @@ import Booking from './pages/Booking/Booking'
 import Confirmation from './pages/Booking Confirmed/Confirmation'
 import Navbar from './components/Navbar/Navbar'
 
+
 const App = () => {
   return (
     <div>

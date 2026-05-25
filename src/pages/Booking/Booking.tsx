@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Footer from '../../components/Footer/Footer'
 import './Booking.css'
 import docImage from '../../assets/doc1.png'
+import Footer from '../../components/Footer/Footer'
 
 interface Doctor {
   id: number
@@ -386,8 +386,11 @@ const Booking = () => {
         </div>
       )}
 
-      <Footer />
+      <Footer/>
+      
     </div>
+
+    
   )
 }
 

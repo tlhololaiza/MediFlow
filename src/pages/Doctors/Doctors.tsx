@@ -110,7 +110,9 @@ const Doctors = () => {
         </div>
       </div>
 
-      <Footer/>
+      <div className="doctors-footer">
+        <Footer/>
+      </div>
     </div>
   )
 }

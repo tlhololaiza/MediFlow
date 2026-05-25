@@ -19,7 +19,7 @@
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 40px;
-  padding: 40px 60px;
+  padding: 60px 80px;
   max-width: 1400px;
   margin: 0 auto;
   background: #fff;
@@ -56,7 +56,7 @@
 
 /* ===== CONTACT INFO SECTION ===== */
 .contact-info-section {
-  padding: 40px 60px;
+  padding: 60px 80px;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -103,7 +103,7 @@
 
 /* ===== CONTACT FORM SECTION ===== */
 .contact-form-section {
-  padding: 40px 60px;
+  padding: 60px 80px;
   max-width: 1400px;
   margin: 0 auto;
 }
