@@ -20,8 +20,8 @@ const Register_Login = () => {
           <form action="">
             <h1>Login</h1>
             <div className="input-box">
-              <input type="text" placeholder="Username" required />
-              <img src="src/assets/bxs-user.svg" alt="User Icon" className="input-icon" />
+              <input type="email" placeholder="Email" required />
+              <img src="src/assets/bxs-envelope.svg" alt="User Icon" className="input-icon" />
             </div>
             <div className="input-box">
               <input type="password" placeholder="Password" required />
@@ -45,15 +45,15 @@ const Register_Login = () => {
           <form action="">
             <h1>Register</h1>
             <div className="input-box">
-              <input type="text" placeholder="Username" required />
-              <img src="src/assets/bxs-user.svg" alt="User Icon" className="input-icon" />
-            </div>
-            <div className="input-box">
               <input type="email" placeholder="Email" required />
               <img src="src/assets/bxs-envelope.svg" alt="Envelope Icon" className="input-icon" />
             </div>
             <div className="input-box">
               <input type="password" placeholder="Password" required />
+              <img src="src/assets/bxs-lock-alt.svg" alt="Lock Icon" className="input-icon" />
+            </div>
+            <div className="input-box">
+              <input type="password" placeholder="Confirm Password" required />
               <img src="src/assets/bxs-lock-alt.svg" alt="Lock Icon" className="input-icon" />
             </div>
             

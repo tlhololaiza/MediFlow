@@ -15,7 +15,7 @@ const Home = () => {
             <p>Book appointments with trusted doctors, manage your schedule, and get the care you deserve.</p>
             
             <div className="hero-buttons">
-              <button className="btn-primary"><i className="bx bx-calendar"></i> Book an Appointment</button>
+              <button className="btn-primary" onClick={() => (window.location.href = '/doctors')}><i className="bx bx-calendar"></i> Book an Appointment</button>
             </div>
 
             <div className="hero-features">
@@ -44,7 +44,7 @@ const Home = () => {
           </div>
 
           <img src={header} alt="Doctor image" className="hero-img" />
-          
+
         </div>
       </div>
 
@@ -88,7 +88,7 @@ const Home = () => {
             <DoctorCard />
             <DoctorCard />
           </div>
-          <button className="more-btn">More</button>
+          <button className="more-btn" onClick={() => (window.location.href = '/doctors')}>More</button>
         </div>
       </section>
 
