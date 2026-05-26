@@ -1,16 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Footer from '../../components/Footer/Footer'
 import './Profile.css'
+import { useAuth } from '../../context/Authcontext'
+
+interface UserProfileData {
+  fullName: string;
+  phone: string;
+  dateOfBirth: string;
+  gender: string;
+}
 
 const Profile = () => {
+  const { currentUser, logout } = useAuth()
   const [activeTab, setActiveTab] = useState('personal')
-  const [formData, setFormData] = useState({
-    fullName: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    dateOfBirth: '15/05/1992',
+  const [loading, setLoading] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
+  const [formData, setFormData] = useState<UserProfileData>({
+    fullName: '',
+    phone: '',
+    dateOfBirth: '',
     gender: 'Male'
   })
+
+  // Load user data from localStorage on mount
+  useEffect(() => {
+    if (currentUser) {
+      const savedData = localStorage.getItem(`user_profile_${currentUser.uid}`)
+      if (savedData) {
+        setFormData(JSON.parse(savedData))
+      } else {
+        // Initialize with email name if no saved data
+        setFormData(prev => ({
+          ...prev,
+          fullName: currentUser.displayName || currentUser.email?.split('@')[0] || ''
+        }))
+      }
+    }
+  }, [currentUser])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -18,6 +44,23 @@ const Profile = () => {
       ...prev,
       [name]: value
     }))
+  }
+
+  const handleSaveChanges = async () => {
+    if (!currentUser) return
+
+    setLoading(true)
+    try {
+      // Save to localStorage
+      localStorage.setItem(`user_profile_${currentUser.uid}`, JSON.stringify(formData))
+      
+      setSuccessMessage('Profile updated successfully!')
+      setTimeout(() => setSuccessMessage(''), 3000)
+    } catch (err) {
+      console.error('Error saving profile:', err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -32,14 +75,14 @@ const Profile = () => {
       <div className="profile-user-card">
         <div className="user-card-left">
           <div className="profile-picture">
-            <img src="https://via.placeholder.com/100" alt="John Doe" />
+            <img src={`https://ui-avatars.com/api/?name=${formData.fullName || 'User'}&background=random`} alt={formData.fullName || 'User'} />
           </div>
           <div className="user-info">
-            <h2>John Doe <span className="verified-badge">Verified</span></h2>
-            <p><i className='bx bx-envelope'></i> john.doe@example.com</p>
-            <p><i className='bx bx-phone'></i> +1 (555) 123-4567</p>
-            <p><i className='bx bx-calendar'></i> 15 May 1992</p>
-            <p><i className='bx bx-male'></i> Male</p>
+            <h2>{formData.fullName || 'User'} <span className="verified-badge">Verified</span></h2>
+            <p><i className='bx bx-envelope'></i> {currentUser?.email || 'No email'}</p>
+            <p><i className='bx bx-phone'></i> {formData.phone || 'Not provided'}</p>
+            <p><i className='bx bx-calendar'></i> {formData.dateOfBirth || 'Not provided'}</p>
+            <p><i className='bx bx-male'></i> {formData.gender || 'Not specified'}</p>
           </div>
         </div>
 
@@ -47,22 +90,22 @@ const Profile = () => {
         <div className="user-stats">
           <div className="stat-card">
             <div className="stat-number">12</div>
-            <div className="stat-label">Appointments</div>
+            <div className="profile-stat-label">Appointments</div>
             <div className="stat-desc">Total Booked</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">2</div>
-            <div className="stat-label">Upcoming</div>
+            <div className="profile-stat-label">Upcoming</div>
             <div className="stat-desc">Next in 3 days</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">10</div>
-            <div className="stat-label">Completed</div>
+            <div className="profile-stat-label">Completed</div>
             <div className="stat-desc">All Done</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">Jan 2024</div>
-            <div className="stat-label">Member Since</div>
+            <div className="profile-stat-label">Member Since</div>
             <div className="stat-desc">1 year ago</div>
           </div>
         </div>
@@ -106,6 +149,19 @@ const Profile = () => {
             </div>
 
             <form className="profile-form">
+              {successMessage && (
+                <div style={{ 
+                  background: '#d4edda', 
+                  color: '#155724', 
+                  padding: '12px', 
+                  borderRadius: '4px', 
+                  marginBottom: '15px',
+                  border: '1px solid #c3e6cb'
+                }}>
+                  ✓ {successMessage}
+                </div>
+              )}
+              
               <div className="form-row">
                 <div className="form-group">
                   <label>Full Name</label>
@@ -114,17 +170,16 @@ const Profile = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    placeholder="John Doe"
+                    placeholder="Enter your full name"
                   />
                 </div>
                 <div className="form-group">
                   <label>Email Address</label>
                   <input 
                     type="email" 
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="john.doe@example.com"
+                    value={currentUser?.email || ''}
+                    disabled
+                    placeholder="Your email"
                   />
                 </div>
               </div>
@@ -137,7 +192,7 @@ const Profile = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="e.g., +1 (555) 123-4567"
                   />
                 </div>
               </div>
@@ -150,7 +205,7 @@ const Profile = () => {
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
                     onChange={handleInputChange}
-                    placeholder="15/05/1992"
+                    placeholder="DD/MM/YYYY"
                   />
                 </div>
                 <div className="form-group">
@@ -167,7 +222,14 @@ const Profile = () => {
                 </div>
               </div>
 
-              <button type="button" className="save-btn">Save Changes</button>
+              <button 
+                type="button" 
+                className="save-btn"
+                onClick={handleSaveChanges}
+                disabled={loading}
+              >
+                {loading ? 'Saving...' : 'Save Changes'}
+              </button>
             </form>
 
             {/* Quick Actions */}
@@ -198,11 +260,11 @@ const Profile = () => {
                   </div>
                   <i className='bx bx-chevron-right'></i>
                 </div>
-                <div className="action-card delete">
-                  <i className='bx bx-trash'></i>
+                <div className="action-card delete" onClick={() => logout()}>
+                  <i className='bx bx-log-out'></i>
                   <div className="action-content">
-                    <h4>Delete Account</h4>
-                    <p>Permanently delete your account</p>
+                    <h4>Logout</h4>
+                    <p>Sign out from your account</p>
                   </div>
                   <i className='bx bx-chevron-right'></i>
                 </div>

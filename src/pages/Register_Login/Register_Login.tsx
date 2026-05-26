@@ -1,36 +1,100 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'></link>
 import './Register_Login.css'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/Authcontext'
 
 const Register_Login = () => {
   const [isActive, setIsActive] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { signup, login } = useAuth()
+  const navigate = useNavigate()
 
   const handleRegisterClick = () => {
     setIsActive(true)
+    setError('')
   }
 
   const handleLoginClick = () => {
     setIsActive(false)
+    setError('')
+  }
+
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    try {
+      await login(email, password)
+      navigate('/profile')
+    } catch (err: any) {
+      setError(err.message || 'Failed to login')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError('')
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long')
+      return
+    }
+
+    setLoading(true)
+    try {
+      await signup(email, password)
+      navigate('/profile')
+    } catch (err: any) {
+      setError(err.message || 'Failed to register')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <div className={`container ${isActive ? 'active' : ''}`}>
         {/*Login Box*/}
         <div className="form-box login">
-          <form action="">
+          <form onSubmit={handleLoginSubmit}>
             <h1>Login</h1>
+            {error && <div style={{ color: 'red', marginBottom: '10px', fontSize: '14px' }}>{error}</div>}
             <div className="input-box">
-              <input type="email" placeholder="Email" required />
+              <input 
+                type="email" 
+                placeholder="Email" 
+                required 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <img src="src/assets/bxs-envelope.svg" alt="User Icon" className="input-icon" />
             </div>
             <div className="input-box">
-              <input type="password" placeholder="Password" required />
+              <input 
+                type="password" 
+                placeholder="Password" 
+                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <img src="src/assets/bxs-lock-alt.svg" alt="Lock Icon" className="input-icon" />
             </div>
             <div className="forgot-link">
               <a href="#">Forgot password?</a>
             </div>
-            <button type="submit" className="btn">Login</button>
+            <button type="submit" className="btn" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
             <p>or login with social platforms</p>
             <div className="social-icons">
               <a href="#"><img src="src/assets/bxl-facebook.svg" alt="Facebook Icon" /></a>
@@ -42,22 +106,41 @@ const Register_Login = () => {
 
         {/*Register Box*/}
         <div className="form-box register">
-          <form action="">
+          <form onSubmit={handleRegisterSubmit}>
             <h1>Register</h1>
+            {error && <div style={{ color: 'red', marginBottom: '10px', fontSize: '14px' }}>{error}</div>}
             <div className="input-box">
-              <input type="email" placeholder="Email" required />
+              <input 
+                type="email" 
+                placeholder="Email" 
+                required 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <img src="src/assets/bxs-envelope.svg" alt="Envelope Icon" className="input-icon" />
             </div>
             <div className="input-box">
-              <input type="password" placeholder="Password" required />
+              <input 
+                type="password" 
+                placeholder="Password" 
+                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <img src="src/assets/bxs-lock-alt.svg" alt="Lock Icon" className="input-icon" />
             </div>
             <div className="input-box">
-              <input type="password" placeholder="Confirm Password" required />
+              <input 
+                type="password" 
+                placeholder="Confirm Password" 
+                required 
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
               <img src="src/assets/bxs-lock-alt.svg" alt="Lock Icon" className="input-icon" />
             </div>
             
-            <button type="submit" className="btn">Register</button>
+            <button type="submit" className="btn" disabled={loading}>{loading ? 'Registering...' : 'Register'}</button>
             <p>or register with social platforms</p>
             <div className="social-icons">
               <a href="#"><img src="src/assets/bxl-facebook.svg" alt="Facebook Icon" /></a>
@@ -82,9 +165,8 @@ const Register_Login = () => {
           </div>
 
         </div>
-    </div>
-
-  )
-}
+      </div>
+    )
+  }
 
 export default Register_Login

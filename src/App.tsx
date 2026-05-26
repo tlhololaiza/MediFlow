@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
+import ProtectedRoute from './components/ProtectedRoute'
 import Doctors from './pages/Doctors/Doctors'
 import Home from './pages/Home/Home'
 import About from './pages/About/About'
@@ -10,24 +11,23 @@ import Navbar from './components/Navbar/Navbar'
 import Profile from './pages/Profile/Profile'
 import Appointments from './pages/Appointments/Appointments'
 
-
 const App = () => {
   return (
     <div>
       <Navbar />
-      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/doctors" element={<Doctors />} />
-        <Route path="/booking/:doctorId" element={<Booking />} />
-        <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Register_Login />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/appointments" element={<Appointments />} />
+        
+        {/* Protected Routes */}
+        <Route path="/booking/:doctorId" element={<ProtectedRoute><Booking /></ProtectedRoute>} />
+        <Route path="/confirmation" element={<ProtectedRoute><Confirmation /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/appointments" element={<ProtectedRoute><Appointments /></ProtectedRoute>} />
       </Routes>
-
     </div>
   )
 }

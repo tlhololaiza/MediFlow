@@ -27,18 +27,13 @@ const Doctors = () => {
 
   const doctorsData: Doctor[] = [
     { id: 1, name: 'Dr. Richard James', specialty: 'General physician', available: true, image: 'src/assets/doc1.png' },
-    { id: 2, name: 'Dr. Sarah Mitchell', specialty: 'Gynecologist', available: true, image: 'src/assets/doc1.png' },
-    { id: 3, name: 'Dr. John Smith', specialty: 'Dermatologist', available: false, image: 'src/assets/doc1.png' },
-    { id: 4, name: 'Dr. Emily Brown', specialty: 'Pediatricians', available: true, image: 'src/assets/doc1.png' },
-    { id: 5, name: 'Dr. Michael Chen', specialty: 'Neurologist', available: true, image: 'src/assets/doc1.png' },
-    { id: 6, name: 'Dr. Lisa Anderson', specialty: 'Gastroenterologist', available: true, image: 'src/assets/doc1.png' },
-    { id: 7, name: 'Dr. Robert Wilson', specialty: 'General physician', available: true, image: 'src/assets/doc1.png' },
-    { id: 8, name: 'Dr. Jennifer Davis', specialty: 'Gynecologist', available: false, image: 'src/assets/doc1.png' },
-    { id: 9, name: 'Dr. David Martinez', specialty: 'Dermatologist', available: true, image: 'src/assets/doc1.png' },
-    { id: 10, name: 'Dr. Amanda White', specialty: 'Pediatricians', available: true, image: 'src/assets/doc1.png' },
-    { id: 11, name: 'Dr. Christopher Lee', specialty: 'Neurologist', available: true, image: 'src/assets/doc1.png' },
-    { id: 12, name: 'Dr. Michelle Taylor', specialty: 'Gastroenterologist', available: true, image: 'src/assets/doc1.png' },
+    { id: 2, name: 'Dr. Sarah Mitchell', specialty: 'Gynecologist', available: true, image: 'src/assets/doc2.png' },
+    { id: 3, name: 'Dr. John Smith', specialty: 'Dermatologist', available: false, image: 'src/assets/doc3.png' },
+    { id: 4, name: 'Dr. Michael Brown', specialty: 'Pediatricians', available: true, image: 'src/assets/doc4.png' },
+    { id: 5, name: 'Dr. Emily Chen', specialty: 'Neurologist', available: true, image: 'src/assets/doc5.png' },
+    { id: 6, name: 'Dr. Carl Davis', specialty: 'Gastroenterologist', available: false, image: 'src/assets/doc6.png' },
   ]
+
 
   // Filter doctors based on search term and selected specialty
   const filteredDoctors = useMemo(() => {
