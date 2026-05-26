@@ -7,6 +7,7 @@ import Register_Login from './pages/Register_Login/Register_Login'
 import Booking from './pages/Booking/Booking'
 import Confirmation from './pages/Booking Confirmed/Confirmation'
 import Navbar from './components/Navbar/Navbar'
+import Profile from './pages/Profile/Profile'
 
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Register_Login />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
 
     </div>
