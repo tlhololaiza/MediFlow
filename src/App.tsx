@@ -8,6 +8,7 @@ import Booking from './pages/Booking/Booking'
 import Confirmation from './pages/Booking Confirmed/Confirmation'
 import Navbar from './components/Navbar/Navbar'
 import Profile from './pages/Profile/Profile'
+import Appointments from './pages/Appointments/Appointments'
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Register_Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/appointments" element={<Appointments />} />
       </Routes>
 
     </div>

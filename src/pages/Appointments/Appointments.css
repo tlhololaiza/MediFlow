@@ -1,0 +1,700 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.appointments-page {
+  background: #f5f7fa;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+/* Header */
+.appointments-header {
+  margin-bottom: 30px;
+}
+
+.appointments-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.appointments-header p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Main Container */
+.appointments-container {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* Main Content */
+.appointments-main {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Tabs */
+.appointments-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0 30px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 16px 0;
+  margin: 0 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: #1f5dff;
+}
+
+.tab-btn.active {
+  color: #1f5dff;
+  border-bottom-color: #1f5dff;
+}
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid #e8eef5;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.date-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.date-range i {
+  font-size: 18px;
+  color: #1f5dff;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  border-color: #1f5dff;
+  color: #1f5dff;
+}
+
+/* Appointments List */
+.appointments-list {
+  padding: 30px;
+}
+
+.appointment-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #e8eef5;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.appointment-card:hover {
+  box-shadow: 0 4px 12px rgba(31, 93, 255, 0.1);
+  border-color: #1f5dff;
+}
+
+/* Doctor Info */
+.apt-doctor-info {
+  display: flex;
+  gap: 15px;
+}
+
+.doctor-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.doctor-details {
+  flex: 1;
+}
+
+.doctor-details h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.specialty {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.rating i {
+  color: #ffc107;
+  font-size: 14px;
+}
+
+.rating span {
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.reviews {
+  color: #999;
+  font-weight: normal;
+}
+
+/* Appointment Details Grid */
+.apt-details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px 0;
+  border-top: 1px solid #e8eef5;
+  border-bottom: 1px solid #e8eef5;
+}
+
+.apt-detail {
+  display: flex;
+  gap: 12px;
+}
+
+.apt-detail i {
+  font-size: 20px;
+  color: #1f5dff;
+  flex-shrink: 0;
+}
+
+.apt-detail .label {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 2px;
+}
+
+.apt-detail .value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.apt-detail .sub {
+  font-size: 12px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Appointment Footer */
+.apt-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-badge i {
+  font-size: 14px;
+}
+
+.status-badge.completed {
+  background: #e8f8f0;
+  color: #26a17e;
+}
+
+.status-badge.cancelled {
+  background: #fee8e8;
+  color: #d32f2f;
+}
+
+.status-badge.no-show {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.status-badge.upcoming {
+  background: #e8f0fe;
+  color: #1f5dff;
+}
+
+.view-details-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #1f5dff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-details-btn:hover {
+  gap: 10px;
+}
+
+.view-details-btn i {
+  font-size: 16px;
+}
+
+/* No Appointments */
+.no-appointments {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-appointments i {
+  font-size: 48px;
+  color: #ddd;
+  margin-bottom: 16px;
+}
+
+.no-appointments h3 {
+  font-size: 18px;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.no-appointments p {
+  font-size: 14px;
+  color: #999;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 30px;
+  border-top: 1px solid #e8eef5;
+}
+
+.page-nav,
+.page-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.page-nav:hover {
+  border-color: #1f5dff;
+  color: #1f5dff;
+}
+
+.page-num:hover {
+  border-color: #1f5dff;
+  color: #1f5dff;
+}
+
+.page-num.active {
+  background: #1f5dff;
+  border-color: #1f5dff;
+  color: white;
+}
+
+/* Results Info */
+.results-info {
+  padding: 16px 30px;
+  font-size: 12px;
+  color: #999;
+  border-top: 1px solid #e8eef5;
+}
+
+/* Sidebar */
+.appointments-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Summary Card */
+.summary-card {
+  background: linear-gradient(135deg, #1f5dff 0%, #1847cc 100%);
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(31, 93, 255, 0.2);
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.summary-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.summary-header i {
+  font-size: 24px;
+  opacity: 0.8;
+}
+
+.summary-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.summary-stat:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-size: 12px;
+  opacity: 0.9;
+  color: #fff;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.summary-stat.completed .stat-value {
+  color: #4caf50;
+}
+
+.summary-stat.cancelled .stat-value {
+  color: #ff6b6b;
+}
+
+.summary-stat.no-show .stat-value {
+  color: #ffc107;
+}
+
+.summary-stat.upcoming .stat-value {
+  color: #00bcd4;
+}
+
+/* Help Card */
+.help-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.help-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.help-card p {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.contact-support-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #1f5dff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-support-btn:hover {
+  background: #1847cc;
+  transform: translateY(-2px);
+}
+
+/* Quick Actions Sidebar */
+.quick-actions-sidebar {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.quick-actions-sidebar h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-item:hover {
+  background: #f8f9fb;
+}
+
+.action-item i:first-child {
+  font-size: 18px;
+  color: #1f5dff;
+  flex-shrink: 0;
+}
+
+.action-item > div {
+  flex: 1;
+}
+
+.action-item p {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.action-item i:last-child {
+  font-size: 16px;
+  color: #ccc;
+  transition: all 0.3s ease;
+}
+
+.action-item:hover i:last-child {
+  color: #1f5dff;
+  transform: translateX(4px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .appointments-container {
+    grid-template-columns: 1fr;
+  }
+
+  .appointments-sidebar {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .appointments-page {
+    padding: 20px 15px;
+  }
+
+  .appointments-header h1 {
+    font-size: 24px;
+  }
+
+  .apt-details-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .appointments-tabs {
+    padding: 0 15px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    margin: 0 10px;
+  }
+
+  .filter-section {
+    padding: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .appointments-list {
+    padding: 15px;
+  }
+
+  .appointment-card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .pagination {
+    padding: 15px;
+  }
+
+  .results-info {
+    padding: 12px 15px;
+  }
+
+  .appointments-sidebar {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .appointments-header h1 {
+    font-size: 20px;
+  }
+
+  .appointments-tabs {
+    padding: 0;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .tab-btn {
+    margin: 0 8px;
+    padding: 12px 0;
+    font-size: 12px;
+  }
+
+  .filter-section {
+    padding: 12px 15px;
+    gap: 10px;
+  }
+
+  .date-range {
+    font-size: 12px;
+  }
+
+  .appointments-list {
+    padding: 12px;
+  }
+
+  .appointment-card {
+    padding: 12px;
+    margin-bottom: 12px;
+    gap: 15px;
+  }
+
+  .apt-doctor-info {
+    gap: 10px;
+  }
+
+  .doctor-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .doctor-details h3 {
+    font-size: 14px;
+  }
+
+  .apt-detail {
+    gap: 8px;
+  }
+
+  .apt-detail i {
+    font-size: 18px;
+  }
+
+  .apt-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .view-details-btn {
+    font-size: 12px;
+  }
+
+  .pagination {
+    gap: 4px;
+    padding: 12px;
+  }
+
+  .page-nav,
+  .page-num {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .results-info {
+    font-size: 11px;
+    padding: 10px 12px;
+  }
+}
+
