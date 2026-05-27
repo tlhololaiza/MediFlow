@@ -1,10 +1,11 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import DoctorCard from "../../components/DoctorCard/DoctorCard"
 import Footer from "../../components/Footer/Footer"
+import { getDoctors } from "../../services/firestoreService"
 import './Doctors.css'
 
 interface Doctor {
-  id: number
+  id: string
   name: string
   specialty: string
   available: boolean
@@ -14,6 +15,8 @@ interface Doctor {
 const Doctors = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedSpecialty, setSelectedSpecialty] = useState('All')
+  const [doctors, setDoctors] = useState<Doctor[]>([])
+  const [loading, setLoading] = useState(true)
 
   const specialties = [
     'All',
@@ -25,24 +28,31 @@ const Doctors = () => {
     'Gastroenterologist',
   ]
 
-  const doctorsData: Doctor[] = [
-    { id: 1, name: 'Dr. Richard James', specialty: 'General physician', available: true, image: 'src/assets/doc1.png' },
-    { id: 2, name: 'Dr. Sarah Mitchell', specialty: 'Gynecologist', available: true, image: 'src/assets/doc2.png' },
-    { id: 3, name: 'Dr. John Smith', specialty: 'Dermatologist', available: false, image: 'src/assets/doc3.png' },
-    { id: 4, name: 'Dr. Michael Brown', specialty: 'Pediatricians', available: true, image: 'src/assets/doc4.png' },
-    { id: 5, name: 'Dr. Emily Chen', specialty: 'Neurologist', available: true, image: 'src/assets/doc5.png' },
-    { id: 6, name: 'Dr. Carl Davis', specialty: 'Gastroenterologist', available: false, image: 'src/assets/doc6.png' },
-  ]
+  // Fetch doctors from Firestore
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        setLoading(true)
+        const doctorsList = await getDoctors()
+        setDoctors(doctorsList)
+      } catch (err) {
+        console.error('Error fetching doctors:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
 
+    fetchDoctors()
+  }, [])
 
   // Filter doctors based on search term and selected specialty
   const filteredDoctors = useMemo(() => {
-    return doctorsData.filter(doctor => {
+    return doctors.filter(doctor => {
       const matchesSearch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesSpecialty = selectedSpecialty === 'All' || doctor.specialty === selectedSpecialty
       return matchesSearch && matchesSpecialty
     })
-  }, [searchTerm, selectedSpecialty])
+  }, [doctors, searchTerm, selectedSpecialty])
 
   return (
     <div className="doctors-page">
@@ -79,13 +89,18 @@ const Doctors = () => {
               placeholder="Search doctors by name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              disabled={loading}
             />
             <i className='bx bx-search search-icon'></i>
           </div>
 
           {/* Doctor Cards Grid */}
           <div className="doctors-grid">
-            {filteredDoctors.length > 0 ? (
+            {loading ? (
+              <div className="no-results">
+                <p>Loading doctors...</p>
+              </div>
+            ) : filteredDoctors.length > 0 ? (
               filteredDoctors.map((doctor) => (
                 <DoctorCard
                   key={doctor.id}

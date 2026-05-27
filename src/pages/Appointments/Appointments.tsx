@@ -1,104 +1,35 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Footer from '../../components/Footer/Footer'
+import { useAuth } from '../../context/Authcontext'
+import { getPatientAppointments, updateAppointmentStatus } from '../../services/firestoreService'
 import './Appointments.css'
 
 const Appointments = () => {
+  const { currentUser } = useAuth()
+  const [appointments, setAppointments] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 6
 
-  const appointmentsData = [
-    {
-      id: 1,
-      doctor: 'Dr. Emily Carter',
-      specialty: 'Cardiologist',
-      rating: 4.9,
-      reviews: 190,
-      image: 'https://via.placeholder.com/60',
-      date: '15 May 2024',
-      day: 'Wednesday',
-      time: '10:30 AM',
-      duration: '30 min',
-      location: 'City Medical Center',
-      city: 'New York, USA',
-      status: 'Completed'
-    },
-    {
-      id: 2,
-      doctor: 'Dr. James Wilson',
-      specialty: 'Dermatologist',
-      rating: 4.8,
-      reviews: 98,
-      image: 'https://via.placeholder.com/60',
-      date: '02 May 2024',
-      day: 'Thursday',
-      time: '02:00 PM',
-      duration: '30 min',
-      location: 'HealthPlex Clinic',
-      city: 'New York, USA',
-      status: 'Completed'
-    },
-    {
-      id: 3,
-      doctor: 'Dr. Sophia Lee',
-      specialty: 'Neurologist',
-      rating: 4.9,
-      reviews: 110,
-      image: 'https://via.placeholder.com/60',
-      date: '20 Apr 2024',
-      day: 'Saturday',
-      time: '11:00 AM',
-      duration: '30 min',
-      location: 'City Medical Center',
-      city: 'New York, USA',
-      status: 'Cancelled'
-    },
-    {
-      id: 4,
-      doctor: 'Dr. Daniel Brown',
-      specialty: 'Orthopedic',
-      rating: 4.7,
-      reviews: 150,
-      image: 'https://via.placeholder.com/60',
-      date: '10 Apr 2024',
-      day: 'Wednesday',
-      time: '09:30 AM',
-      duration: '30 min',
-      location: 'Ortho Care Hospital',
-      city: 'New York, USA',
-      status: 'No Show'
-    },
-    {
-      id: 5,
-      doctor: 'Dr. Olivia Martinez',
-      specialty: 'Pediatrician',
-      rating: 4.9,
-      reviews: 130,
-      image: 'https://via.placeholder.com/60',
-      date: '28 Mar 2024',
-      day: 'Thursday',
-      time: '03:30 PM',
-      duration: '30 min',
-      location: 'Kids Health Clinic',
-      city: 'New York, USA',
-      status: 'Completed'
-    },
-    {
-      id: 6,
-      doctor: 'Dr. Michael Johnson',
-      specialty: 'General Physician',
-      rating: 4.8,
-      reviews: 200,
-      image: 'https://via.placeholder.com/60',
-      date: '15 Mar 2024',
-      day: 'Friday',
-      time: '01:00 PM',
-      duration: '30 min',
-      location: 'HealthPlex Clinic',
-      city: 'New York, USA',
-      status: 'Completed'
+  // Fetch appointments from Firestore
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      if (!currentUser) return
+
+      try {
+        setLoading(true)
+        const userAppointments = await getPatientAppointments(currentUser.uid)
+        setAppointments(userAppointments)
+      } catch (err) {
+        console.error('Error fetching appointments:', err)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+
+    fetchAppointments()
+  }, [currentUser])
 
   const getStatusColor = (status: string) => {
     switch(status) {
@@ -115,9 +46,9 @@ const Appointments = () => {
     }
   }
 
-  const filteredAppointments = appointmentsData.filter(apt => {
+  const filteredAppointments = appointments.filter(apt => {
     if (activeTab === 'all') return true
-    return apt.status.toLowerCase() === activeTab.toLowerCase()
+    return apt.status?.toLowerCase() === activeTab.toLowerCase()
   })
 
   const paginatedAppointments = filteredAppointments.slice(
@@ -126,6 +57,20 @@ const Appointments = () => {
   )
 
   const totalPages = Math.ceil(filteredAppointments.length / itemsPerPage)
+
+  if (loading) {
+    return (
+      <div className="appointments-page">
+        <div className="appointments-header">
+          <h1>Appointment History</h1>
+          <p>View and manage your appointments.</p>
+        </div>
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <p>Loading appointments...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="appointments-page">
@@ -189,14 +134,14 @@ const Appointments = () => {
               paginatedAppointments.map((apt) => (
                 <div key={apt.id} className="appointment-card">
                   <div className="apt-doctor-info">
-                    <img src={apt.image} alt={apt.doctor} className="doctor-img" />
+                    <img src={'https://via.placeholder.com/60'} alt={apt.doctorName} className="doctor-img" />
                     <div className="doctor-details">
-                      <h3>{apt.doctor}</h3>
+                      <h3>{apt.doctorName}</h3>
                       <p className="specialty">{apt.specialty}</p>
                       <div className="rating">
                         <i className='bx bxs-star'></i>
-                        <span>{apt.rating}</span>
-                        <span className="reviews">({apt.reviews} reviews)</span>
+                        <span>4.8</span>
+                        <span className="reviews">(120 reviews)</span>
                       </div>
                     </div>
                   </div>
@@ -207,7 +152,7 @@ const Appointments = () => {
                       <div>
                         <p className="label">Date</p>
                         <p className="value">{apt.date}</p>
-                        <p className="sub">{apt.day}</p>
+                        <p className="sub">-</p>
                       </div>
                     </div>
 
@@ -216,7 +161,7 @@ const Appointments = () => {
                       <div>
                         <p className="label">Time</p>
                         <p className="value">{apt.time}</p>
-                        <p className="sub">{apt.duration}</p>
+                        <p className="sub">30 min</p>
                       </div>
                     </div>
 
@@ -224,8 +169,8 @@ const Appointments = () => {
                       <i className='bx bx-map'></i>
                       <div>
                         <p className="label">Location</p>
-                        <p className="value">{apt.location}</p>
-                        <p className="sub">{apt.city}</p>
+                        <p className="value">Medical Center</p>
+                        <p className="sub">City</p>
                       </div>
                     </div>
                   </div>
@@ -291,23 +236,23 @@ const Appointments = () => {
             <div className="summary-stats">
               <div className="summary-stat">
                 <span className="stat-label">Total Appointments</span>
-                <span className="stat-value">24</span>
+                <span className="stat-value">{appointments.length}</span>
               </div>
               <div className="summary-stat completed">
                 <span className="stat-label">Completed</span>
-                <span className="stat-value">16</span>
+                <span className="stat-value">{appointments.filter(a => a.status === 'Completed').length}</span>
               </div>
               <div className="summary-stat cancelled">
                 <span className="stat-label">Cancelled</span>
-                <span className="stat-value">4</span>
+                <span className="stat-value">{appointments.filter(a => a.status === 'Cancelled').length}</span>
               </div>
               <div className="summary-stat no-show">
                 <span className="stat-label">No Show</span>
-                <span className="stat-value">2</span>
+                <span className="stat-value">{appointments.filter(a => a.status === 'No Show').length}</span>
               </div>
               <div className="summary-stat upcoming">
                 <span className="stat-label">Upcoming</span>
-                <span className="stat-value">2</span>
+                <span className="stat-value">{appointments.filter(a => a.status === 'Booked').length}</span>
               </div>
             </div>
           </div>

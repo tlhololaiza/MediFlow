@@ -9,6 +9,8 @@ import {
   onAuthStateChanged
 } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -27,14 +29,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
 
   const signup = async (email: string, password: string) => {
-    try {
-      setError(null);
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (err: any) {
-      setError(err.message);
-      throw err;
-    }
-  };
+  try {
+    setError(null);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+    // Create user profile in Firestore
+    await setDoc(doc(db, 'users', userCredential.user.uid), {
+      uid: userCredential.user.uid,
+      email,
+      userType: 'patient',
+      fullName: '',
+      phone: '',
+      createdAt: new Date()
+    });
+  } catch (err: any) {
+    setError(err.message);
+    throw err;
+  }
+};
 
   const login = async (email: string, password: string) => {
     try {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Footer from '../../components/Footer/Footer'
 import './Profile.css'
 import { useAuth } from '../../context/Authcontext'
+import { getUserProfile, updateUserProfile, getPatientAppointments } from '../../services/firestoreService'
 
 interface UserProfileData {
   fullName: string;
@@ -15,6 +16,9 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('personal')
   const [loading, setLoading] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
+  const [appointmentCount, setAppointmentCount] = useState(0)
+  const [upcomingCount, setUpcomingCount] = useState(0)
+  const [completedCount, setCompletedCount] = useState(0)
   const [formData, setFormData] = useState<UserProfileData>({
     fullName: '',
     phone: '',
@@ -22,20 +26,40 @@ const Profile = () => {
     gender: 'Male'
   })
 
-  // Load user data from localStorage on mount
+  // Load user data from Firestore on mount
   useEffect(() => {
-    if (currentUser) {
-      const savedData = localStorage.getItem(`user_profile_${currentUser.uid}`)
-      if (savedData) {
-        setFormData(JSON.parse(savedData))
-      } else {
-        // Initialize with email name if no saved data
-        setFormData(prev => ({
-          ...prev,
-          fullName: currentUser.displayName || currentUser.email?.split('@')[0] || ''
-        }))
+    const loadUserData = async () => {
+      if (!currentUser) return
+
+      try {
+        // Load user profile from Firestore
+        const userData = await getUserProfile(currentUser.uid)
+        if (userData) {
+          setFormData({
+            fullName: userData.fullName || '',
+            phone: userData.phone || '',
+            dateOfBirth: userData.dateOfBirth || '',
+            gender: userData.gender || 'Male'
+          })
+        } else {
+          // Initialize with email name if no saved data
+          setFormData(prev => ({
+            ...prev,
+            fullName: currentUser.displayName || currentUser.email?.split('@')[0] || ''
+          }))
+        }
+
+        // Load appointment counts
+        const userAppointments = await getPatientAppointments(currentUser.uid)
+        setAppointmentCount(userAppointments.length)
+        setUpcomingCount(userAppointments.filter(a => a.status === 'Booked').length)
+        setCompletedCount(userAppointments.filter(a => a.status === 'Completed').length)
+      } catch (err) {
+        console.error('Error loading profile:', err)
       }
     }
+
+    loadUserData()
   }, [currentUser])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -51,13 +75,14 @@ const Profile = () => {
 
     setLoading(true)
     try {
-      // Save to localStorage
-      localStorage.setItem(`user_profile_${currentUser.uid}`, JSON.stringify(formData))
+      // Save to Firestore
+      await updateUserProfile(currentUser.uid, formData)
       
       setSuccessMessage('Profile updated successfully!')
       setTimeout(() => setSuccessMessage(''), 3000)
     } catch (err) {
       console.error('Error saving profile:', err)
+      setSuccessMessage('Error updating profile')
     } finally {
       setLoading(false)
     }
@@ -89,24 +114,24 @@ const Profile = () => {
         {/* Stats Section */}
         <div className="user-stats">
           <div className="stat-card">
-            <div className="stat-number">12</div>
+            <div className="stat-number">{appointmentCount}</div>
             <div className="profile-stat-label">Appointments</div>
             <div className="stat-desc">Total Booked</div>
           </div>
           <div className="stat-card">
-            <div className="stat-number">2</div>
+            <div className="stat-number">{upcomingCount}</div>
             <div className="profile-stat-label">Upcoming</div>
             <div className="stat-desc">Next in 3 days</div>
           </div>
           <div className="stat-card">
-            <div className="stat-number">10</div>
+            <div className="stat-number">{completedCount}</div>
             <div className="profile-stat-label">Completed</div>
             <div className="stat-desc">All Done</div>
           </div>
           <div className="stat-card">
-            <div className="stat-number">Jan 2024</div>
+            <div className="stat-number">-</div>
             <div className="profile-stat-label">Member Since</div>
-            <div className="stat-desc">1 year ago</div>
+            <div className="stat-desc">2024</div>
           </div>
         </div>
       </div>

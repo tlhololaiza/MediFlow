@@ -1,22 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import './Booking.css'
-import docImage from '../../assets/doc1.png'
 import Footer from '../../components/Footer/Footer'
-
-interface Doctor {
-  id: number
-  name: string
-  specialty: string
-  available: boolean
-  image: string
-  qualifications: string
-  experience: string
-  consultationFee: number
-}
+import { getDoctorById, getAvailability, createAppointment } from '../../services/firestoreService'
+import { useAuth } from '../../context/Authcontext'
 
 interface TimeSlot {
-  id: string
   time: string
   available: boolean
 }
@@ -24,88 +13,17 @@ interface TimeSlot {
 const Booking = () => {
   const { doctorId } = useParams<{ doctorId: string }>()
   const navigate = useNavigate()
-
-  // Mock doctor data - in real app, this would come from an API
-  const doctorsData: Record<number, Doctor> = {
-    1: {
-      id: 1,
-      name: 'Dr. Richard James',
-      specialty: 'General physician',
-      available: true,
-      image: docImage,
-      qualifications: 'MD, Board Certified',
-      experience: '15+ years of experience',
-      consultationFee: 50
-    },
-    2: {
-      id: 2,
-      name: 'Dr. Sarah Mitchell',
-      specialty: 'Gynecologist',
-      available: true,
-      image: docImage,
-      qualifications: 'MD, Fellowship in Obstetrics',
-      experience: '12+ years of experience',
-      consultationFee: 60
-    },
-    3: {
-      id: 3,
-      name: 'Dr. John Smith',
-      specialty: 'Dermatologist',
-      available: false,
-      image: docImage,
-      qualifications: 'MD, Dermatology Specialist',
-      experience: '10+ years of experience',
-      consultationFee: 55
-    },
-    4: {
-      id: 4,
-      name: 'Dr. Emily Brown',
-      specialty: 'Pediatricians',
-      available: true,
-      image: docImage,
-      qualifications: 'MD, Pediatric Specialist',
-      experience: '8+ years of experience',
-      consultationFee: 45
-    },
-    5: {
-      id: 5,
-      name: 'Dr. Michael Chen',
-      specialty: 'Neurologist',
-      available: true,
-      image: docImage,
-      qualifications: 'MD, Neurology Specialist',
-      experience: '14+ years of experience',
-      consultationFee: 70
-    },
-    6: {
-      id: 6,
-      name: 'Dr. Lisa Anderson',
-      specialty: 'Gastroenterologist',
-      available: true,
-      image: docImage,
-      qualifications: 'MD, Gastroenterology Specialist',
-      experience: '11+ years of experience',
-      consultationFee: 65
-    },
-  }
-
-  const doctor = doctorsData[Number(doctorId)] || doctorsData[1]
-
-  // Generate time slots
-  const generateTimeSlots = (): TimeSlot[] => {
-    const slots: TimeSlot[] = []
-    const times = ['9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM']
-    
-    times.forEach((time, index) => {
-      slots.push({
-        id: `slot-${index}`,
-        time: time,
-        available: Math.random() > 0.3 // 70% of slots are available
-      })
-    })
-    
-    return slots
-  }
+  const { currentUser } = useAuth()
+  
+  const [doctor, setDoctor] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([])
+  const [selectedDate, setSelectedDate] = useState<any>(null)
+  const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null)
+  const [showPayment, setShowPayment] = useState(false)
+  const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
+  const [bookingLoading, setBookingLoading] = useState(false)
 
   // Generate next 7 days
   const generateDates = () => {
@@ -122,14 +40,63 @@ const Booking = () => {
     return dates
   }
 
-  const [selectedDate, setSelectedDate] = useState(generateDates()[0])
-  const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null)
-  const [showPayment, setShowPayment] = useState(false)
-  const [selectedPayment, setSelectedPayment] = useState<string | null>(null)
-
-  const timeSlots = generateTimeSlots()
   const dates = generateDates()
+  
+  // Initialize selectedDate with first generated date
+  useEffect(() => {
+    if (!selectedDate) {
+      setSelectedDate(dates[0])
+    }
+  }, [dates, selectedDate])
 
+  // Fetch doctor data from Firestore
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        setLoading(true)
+        if (doctorId) {
+          const doctorData = await getDoctorById(doctorId)
+          if (doctorData) {
+            setDoctor(doctorData)
+          } else {
+            setError('Doctor not found')
+          }
+        }
+      } catch (err: any) {
+        setError(err.message)
+        console.error('Error fetching doctor:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDoctor()
+  }, [doctorId])
+
+  // Fetch availability when date is selected
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      if (selectedDate && doctorId) {
+        try {
+          const availabilityData = await getAvailability(doctorId, selectedDate.date.toISOString().split('T')[0])
+          if (availabilityData && availabilityData.timeSlots) {
+            setTimeSlots(availabilityData.timeSlots)
+          } else {
+            // No availability data, show default slots
+            const defaultSlots = ['9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM'].map(time => ({
+              time,
+              available: true
+            }))
+            setTimeSlots(defaultSlots)
+          }
+        } catch (err) {
+          console.error('Error fetching availability:', err)
+        }
+      }
+    }
+
+    fetchAvailability()
+  }, [selectedDate, doctorId])
   const handleBooking = () => {
     if (selectedSlot && selectedDate) {
       setShowPayment(true)
@@ -140,22 +107,77 @@ const Booking = () => {
     setSelectedPayment(method)
   }
 
-  const handleConfirmPayment = () => {
-    if (selectedPayment && selectedSlot) {
+  const handleConfirmPayment = async () => {
+    if (!selectedPayment || !selectedSlot || !currentUser || !doctor) {
+      alert('Please fill all required fields')
+      return
+    }
+
+    setBookingLoading(true)
+    try {
+      const appointmentData = {
+        patientId: currentUser.uid,
+        doctorId: doctorId,
+        doctorName: doctor.name,
+        specialty: doctor.specialty,
+        date: selectedDate.date.toISOString().split('T')[0],
+        time: selectedSlot.time,
+        paymentMethod: selectedPayment,
+        consultationFee: doctor.consultationFee
+      }
+
+      // Create appointment in Firestore
+      const appointmentId = await createAppointment(appointmentData)
+
+      // Navigate to confirmation page with booking data
       const bookingData = {
         doctorName: doctor.name,
         specialty: doctor.specialty,
         date: selectedDate.dateString,
         time: selectedSlot.time,
         paymentMethod: selectedPayment,
-        consultationFee: doctor.consultationFee
+        consultationFee: doctor.consultationFee,
+        appointmentId
       }
-      
-      console.log('Booking confirmed:', bookingData)
-      
-      // Navigate to confirmation page with booking data
       navigate('/confirmation', { state: bookingData })
+    } catch (err: any) {
+      alert('Error creating appointment: ' + err.message)
+      console.error('Error booking appointment:', err)
+    } finally {
+      setBookingLoading(false)
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="booking-page">
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1>Book an Appointment</h1>
+            <p>Schedule your consultation with a healthcare professional</p>
+          </div>
+        </section>
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <p>Loading doctor information...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !doctor) {
+    return (
+      <div className="booking-page">
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1>Book an Appointment</h1>
+            <p>Schedule your consultation with a healthcare professional</p>
+          </div>
+        </section>
+        <div style={{ textAlign: 'center', padding: '50px', color: 'red' }}>
+          <p>{error || 'Doctor not found'}</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -172,10 +194,10 @@ const Booking = () => {
       <section className="doctor-details-section">
         <div className="doctor-details-container">
           <div className="doctor-image-section">
-            <img src={doctor.image} alt={doctor.name} className="doctor-image" />
+            {doctor.image && <img src={doctor.image} alt={doctor.name} className="doctor-image" />}
             <div className="doctor-status">
-              <span className={`status-badge ${doctor.available ? 'available' : 'unavailable'}`}>
-                {doctor.available ? '✓ Available' : '✗ Unavailable'}
+              <span className={`status-badge available`}>
+                ✓ Available
               </span>
             </div>
           </div>
@@ -203,7 +225,7 @@ const Booking = () => {
                 <i className='bx bx-dollar-circle'></i>
                 <div>
                   <label>Consultation Fee</label>
-                  <p>${doctor.consultationFee}</p>
+                  <p>ZAR {doctor.consultationFee}</p>
                 </div>
               </div>
             </div>
@@ -236,17 +258,21 @@ const Booking = () => {
           <div className="booking-section">
             <h3>Select Time Slot</h3>
             <div className="time-slots-grid">
-              {timeSlots.map((slot) => (
-                <button
-                  key={slot.id}
-                  className={`time-slot-btn ${!slot.available ? 'disabled' : ''} ${selectedSlot?.id === slot.id ? 'selected' : ''}`}
-                  onClick={() => slot.available && setSelectedSlot(slot)}
-                  disabled={!slot.available}
-                >
-                  {slot.time}
-                  {!slot.available && <span className="booked-label">Booked</span>}
-                </button>
-              ))}
+              {timeSlots.length > 0 ? (
+                timeSlots.map((slot, index) => (
+                  <button
+                    key={index}
+                    className={`time-slot-btn ${!slot.available ? 'disabled' : ''} ${selectedSlot?.time === slot.time ? 'selected' : ''}`}
+                    onClick={() => slot.available && setSelectedSlot(slot)}
+                    disabled={!slot.available}
+                  >
+                    {slot.time}
+                    {!slot.available && <span className="booked-label">Booked</span>}
+                  </button>
+                ))
+              ) : (
+                <p>Loading availability...</p>
+              )}
             </div>
           </div>
 
@@ -273,7 +299,7 @@ const Booking = () => {
                 </div>
                 <div className="summary-item total">
                   <span>Total Fee:</span>
-                  <strong>${doctor.consultationFee}</strong>
+                  <strong>ZAR {doctor.consultationFee}</strong>
                 </div>
               </div>
               <button className="btn-book" onClick={handleBooking}>
@@ -377,9 +403,9 @@ const Booking = () => {
               <button
                 className="btn-confirm"
                 onClick={handleConfirmPayment}
-                disabled={!selectedPayment}
+                disabled={!selectedPayment || bookingLoading}
               >
-                Confirm Booking
+                {bookingLoading ? 'Processing...' : 'Confirm Booking'}
               </button>
             </div>
           </div>
