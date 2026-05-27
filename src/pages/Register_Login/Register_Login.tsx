@@ -11,6 +11,7 @@ const Register_Login = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [userType, setUserType] = useState<'patient' | 'doctor'>('patient')
   const { signup, login } = useAuth()
   const navigate = useNavigate()
 
@@ -31,7 +32,10 @@ const Register_Login = () => {
 
     try {
       await login(email, password)
-      navigate('/profile')
+      // Redirect based on user type - will be set after login
+      setTimeout(() => {
+        navigate('/profile')
+      }, 500)
     } catch (err: any) {
       setError(err.message || 'Failed to login')
     } finally {
@@ -55,8 +59,13 @@ const Register_Login = () => {
 
     setLoading(true)
     try {
-      await signup(email, password)
-      navigate('/profile')
+      await signup(email, password, userType)
+      // Redirect based on user type
+      if (userType === 'doctor') {
+        navigate('/doctor/dashboard')
+      } else {
+        navigate('/profile')
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to register')
     } finally {
@@ -109,6 +118,31 @@ const Register_Login = () => {
           <form onSubmit={handleRegisterSubmit}>
             <h1>Register</h1>
             {error && <div style={{ color: 'red', marginBottom: '10px', fontSize: '14px' }}>{error}</div>}
+            
+            {/* User Type Selection */}
+            <div style={{ marginBottom: '15px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                <input 
+                  type="radio" 
+                  name="userType" 
+                  value="patient" 
+                  checked={userType === 'patient'}
+                  onChange={(e) => setUserType(e.target.value as 'patient' | 'doctor')}
+                />
+                <span>Patient</span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                <input 
+                  type="radio" 
+                  name="userType" 
+                  value="doctor" 
+                  checked={userType === 'doctor'}
+                  onChange={(e) => setUserType(e.target.value as 'patient' | 'doctor')}
+                />
+                <span>Doctor</span>
+              </label>
+            </div>
+            
             <div className="input-box">
               <input 
                 type="email" 

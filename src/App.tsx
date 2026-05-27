@@ -10,6 +10,9 @@ import Confirmation from './pages/Booking Confirmed/Confirmation'
 import Navbar from './components/Navbar/Navbar'
 import Profile from './pages/Profile/Profile'
 import Appointments from './pages/Appointments/Appointments'
+import DoctorDashboard from './pages/DoctorDashboard/DoctorDashboard'
+import DoctorAppointments from './pages/DoctorDashboard/DoctorAppointments'
+import ManageAvailability from './pages/DoctorDashboard/ManageAvailability'
 
 const App = () => {
   return (
@@ -27,6 +30,11 @@ const App = () => {
         <Route path="/confirmation" element={<ProtectedRoute><Confirmation /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/appointments" element={<ProtectedRoute><Appointments /></ProtectedRoute>} />
+        
+        {/* Doctor Routes */}
+        <Route path="/doctor/dashboard" element={<ProtectedRoute requiredRole="doctor"><DoctorDashboard /></ProtectedRoute>} />
+        <Route path="/doctor/appointments" element={<ProtectedRoute requiredRole="doctor"><DoctorAppointments /></ProtectedRoute>} />
+        <Route path="/doctor/availability" element={<ProtectedRoute requiredRole="doctor"><ManageAvailability /></ProtectedRoute>} />
       </Routes>
     </div>
   )

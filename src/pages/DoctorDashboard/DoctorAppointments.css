@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.doctor-appointments-page {
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+.doctor-appointments-header {
+  background: #1f5dff;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 30px;
+
+}
+
+.doctor-appointments-header h1 {
+  font-size: 2.5rem;
+  margin: 0 0 10px 0;
+}
+
+.doctor-appointments-header p {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.doctor-appointments-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.doctor-appointments-main {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-appointments-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #f0f0f0;
+  padding: 0 20px;
+  gap: 5px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 15px 20px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #666;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+  color: #1f5dff;
+}
+
+.tab-btn.active {
+  color: #1f5dff;
+  border-bottom-color: #1f5dff;
+}
+
+.doctor-appointments-list {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.doctor-appointment-card {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.doctor-appointment-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #1f5dff;
+}
+
+.doctor-apt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.patient-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.patient-email {
+  margin: 5px 0 0 0;
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.booked {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge.completed {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-badge.cancelled {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.status-badge.no\ show {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.doctor-apt-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.detail-item i {
+  font-size: 1.3rem;
+  color: #1f5dff;
+  margin-top: 2px;
+}
+
+.detail-item label {
+  display: block;
+  font-size: 0.8rem;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.detail-item p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.doctor-apt-notes {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.doctor-apt-notes label {
+  display: block;
+  font-size: 0.8rem;
+  color: #999;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.doctor-apt-notes p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+  font-style: italic;
+}
+
+.doctor-apt-footer {
+  display: flex;
+  gap: 10px;
+}
+
+.doctor-apt-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.doctor-edit-btn{
+  background: white;
+  border: 2px solid #1f5dff;
+  color: #1f5dff;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.doctor-edit-btn:hover {
+  background: #1f5dff;
+  color: white;
+}
+
+.contact-btn{
+    background: #1f5dff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+  background: #1847cc;
+  transform: translateY(-2px);
+}
+
+.status-edit {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.doctor-save-btn,
+.cancel-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.doctor-save-btn {
+  background: #1f5dff;
+  color: white;
+}
+
+.doctor-save-btn:hover {
+  background: #1847cc;
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  background: #f44336;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #da190b;
+}
+
+.no-appointments {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.no-appointments i {
+  font-size: 3rem;
+  color: #ddd;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.no-appointments h3 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.no-appointments p {
+  margin: 10px 0 0 0;
+  font-size: 0.95rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.page-nav,
+.page-num {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.page-nav:hover:not(:disabled),
+.page-num:hover {
+  background: #1f5dff;
+  color: white;
+  border-color: #1f5dff;
+}
+
+.page-num.active {
+  background: #1f5dff;
+  color: white;
+  border-color: #1f5dff;
+}
+
+.page-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .appointments-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .apt-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .apt-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .doctor-edit-btn,
+  .contact-btn {
+    flex: 1;
+  }
+
+  .status-edit {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .status-select,
+  .doctor-save-btn,
+  .cancel-btn {
+    flex: 1;
+  }
+}
