@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useAuth } from '../../context/Authcontext'
+import { useAuth } from '../../context/AuthContext'
 import { getDoctorAppointments, updateAppointmentStatus } from '../../services/firestoreService'
 import './DoctorAppointments.css'
 

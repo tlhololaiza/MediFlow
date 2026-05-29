@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import './Booking.css'
 import Footer from '../../components/Footer/Footer'
 import { getDoctorById, getAvailability, createAppointment } from '../../services/firestoreService'
-import { useAuth } from '../../context/Authcontext'
+import { useAuth } from '../../context/AuthContext'
 
 interface TimeSlot {
   time: string

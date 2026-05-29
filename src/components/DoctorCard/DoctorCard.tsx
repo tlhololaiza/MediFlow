@@ -4,7 +4,7 @@ import './DoctorCard.css'
 import docImage from '../../assets/doc1.png'
 
 interface DoctorCardProps {
-  id?: number
+  id?: string | number
   name?: string
   specialty?: string
   available?: boolean

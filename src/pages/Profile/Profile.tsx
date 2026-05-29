@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Footer from '../../components/Footer/Footer'
 import './Profile.css'
-import { useAuth } from '../../context/Authcontext'
+import { useAuth } from '../../context/AuthContext'
 import { getUserProfile, updateUserProfile, getPatientAppointments } from '../../services/firestoreService'
 
 interface UserProfileData {

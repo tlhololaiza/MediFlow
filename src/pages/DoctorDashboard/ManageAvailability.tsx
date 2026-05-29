@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useAuth } from '../../context/Authcontext'
+import { useAuth } from '../../context/AuthContext'
 import { db } from '../../firebaseConfig'
 import { collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore'
 import './ManageAvailability.css'

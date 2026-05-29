@@ -13,6 +13,10 @@ import Appointments from './pages/Appointments/Appointments'
 import DoctorDashboard from './pages/DoctorDashboard/DoctorDashboard'
 import DoctorAppointments from './pages/DoctorDashboard/DoctorAppointments'
 import ManageAvailability from './pages/DoctorDashboard/ManageAvailability'
+import AdminDashboard from './pages/Admin Dashboard/AdminDashboard'
+import AdminUsers from './pages/Admin Dashboard/AdminUsers'
+import AdminDoctors from './pages/Admin Dashboard/AdminDoctors'
+import AdminAppointments from './pages/Admin Dashboard/AdminAppointments'
 
 const App = () => {
   return (
@@ -35,6 +39,12 @@ const App = () => {
         <Route path="/doctor/dashboard" element={<ProtectedRoute requiredRole="doctor"><DoctorDashboard /></ProtectedRoute>} />
         <Route path="/doctor/appointments" element={<ProtectedRoute requiredRole="doctor"><DoctorAppointments /></ProtectedRoute>} />
         <Route path="/doctor/availability" element={<ProtectedRoute requiredRole="doctor"><ManageAvailability /></ProtectedRoute>} />
+
+        {/* Admin Routes */}
+        <Route path="/admin/dashboard" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/admin/users" element={<ProtectedRoute requiredRole="admin"><AdminUsers /></ProtectedRoute>} />
+        <Route path="/admin/doctors" element={<ProtectedRoute requiredRole="admin"><AdminDoctors /></ProtectedRoute>} />
+        <Route path="/admin/appointments" element={<ProtectedRoute requiredRole="admin"><AdminAppointments /></ProtectedRoute>} />
       </Routes>
     </div>
   )

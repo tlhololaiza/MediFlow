@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Footer from '../../components/Footer/Footer'
-import { useAuth } from '../../context/Authcontext'
-import { getPatientAppointments, updateAppointmentStatus } from '../../services/firestoreService'
+import { useAuth } from '../../context/AuthContext'
+import { getPatientAppointments } from '../../services/firestoreService'
 import './Appointments.css'
 
 const Appointments = () => {

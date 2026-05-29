@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/Authcontext';
+import { useAuth } from '../context/AuthContext';
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  requiredRole?: 'patient' | 'doctor';
+  requiredRole?: 'patient' | 'doctor' | 'admin';
 }
 
 const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
@@ -31,7 +31,12 @@ const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
 
   // Check if user has required role
   if (requiredRole && userType !== requiredRole) {
-    return <Navigate to={userType === 'doctor' ? '/doctor/dashboard' : '/profile'} replace />;
+    if (userType === 'doctor') {
+      return <Navigate to="/doctor/dashboard" replace />;
+    } else if (userType === 'admin') {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
+    return <Navigate to="/profile" replace />;
   }
 
   return children;

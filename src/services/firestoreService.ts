@@ -12,7 +12,7 @@ import {
 } from 'firebase/firestore';
 
 // DOCTORS
-export const getDoctors = async () => {
+export const getDoctors = async (): Promise<any[]> => {
   const querySnapshot = await getDocs(collection(db, 'doctors'));
   return querySnapshot.docs.map(doc => ({
     id: doc.id,
@@ -40,7 +40,7 @@ export const updateDoctor = async (docId: string, data: any) => {
 };
 
 // USERS
-export const createUserProfile = async (uid: string, userData: any) => {
+export const createUserProfile = async (uid: string, userData: any): Promise<void> => {
   const userRef = doc(db, 'users', uid);
   await setDoc(userRef, {
     uid,
@@ -49,19 +49,19 @@ export const createUserProfile = async (uid: string, userData: any) => {
   });
 };
 
-export const getUserProfile = async (uid: string) => {
+export const getUserProfile = async (uid: string): Promise<any> => {
   const userRef = doc(db, 'users', uid);
   const userSnap = await getDoc(userRef);
   return userSnap.exists() ? userSnap.data() : null;
 };
 
-export const updateUserProfile = async (uid: string, data: any) => {
+export const updateUserProfile = async (uid: string, data: any): Promise<void> => {
   const userRef = doc(db, 'users', uid);
   await updateDoc(userRef, data);
 };
 
 // APPOINTMENTS
-export const createAppointment = async (appointmentData: any) => {
+export const createAppointment = async (appointmentData: any): Promise<string> => {
   const docRef = await addDoc(collection(db, 'appointments'), {
     ...appointmentData,
     createdAt: new Date(),
@@ -70,7 +70,7 @@ export const createAppointment = async (appointmentData: any) => {
   return docRef.id;
 };
 
-export const getPatientAppointments = async (patientId: string) => {
+export const getPatientAppointments = async (patientId: string): Promise<any[]> => {
   const q = query(
     collection(db, 'appointments'),
     where('patientId', '==', patientId)
@@ -82,7 +82,7 @@ export const getPatientAppointments = async (patientId: string) => {
   }));
 };
 
-export const getDoctorAppointments = async (doctorId: string) => {
+export const getDoctorAppointments = async (doctorId: string): Promise<any[]> => {
   const q = query(
     collection(db, 'appointments'),
     where('doctorId', '==', doctorId)
@@ -132,4 +132,36 @@ export const updateAvailability = async (doctorId: string, date: string, timeSlo
       createdAt: new Date()
     });
   }
+};
+
+// ADMIN FUNCTIONS
+export const getAllUsers = async (): Promise<any[]> => {
+  const querySnapshot = await getDocs(collection(db, 'users'));
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+};
+
+export const getAllAppointments = async (): Promise<any[]> => {
+  const querySnapshot = await getDocs(collection(db, 'appointments'));
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+};
+
+export const deleteUser = async (uid: string) => {
+  const userRef = doc(db, 'users', uid);
+  await updateDoc(userRef, { deletedAt: new Date(), isActive: false });
+};
+
+export const deleteDoctor = async (docId: string) => {
+  const docRef = doc(db, 'doctors', docId);
+  await updateDoc(docRef, { deletedAt: new Date(), isActive: false });
+};
+
+export const deleteAppointment = async (appointmentId: string) => {
+  const appRef = doc(db, 'appointments', appointmentId);
+  await updateDoc(appRef, { deletedAt: new Date() });
 };
